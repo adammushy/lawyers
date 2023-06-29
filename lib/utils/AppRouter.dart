@@ -13,6 +13,7 @@ import 'package:lawyers/screens/profile_screen.dart';
 import 'package:lawyers/utils/authentication.dart';
 
 import '../screens/admin/admin_admins_screen.dart';
+import '../screens/admin/admin_all_users.dart';
 import '../screens/admin/admin_users_screen.dart';
 import '../screens/dashboard.dart';
 import '../screens/lawyers_screen.dart';
@@ -105,6 +106,11 @@ class AppRouter {
                   builder: (context, state) {
                     return AdminAdminsScreen();
                   },
+                ),GoRoute(
+                  path: "allusers",
+                  builder: (context, state) {
+                    return AllUsersScreen();
+                  },
                 ),
                 GoRoute(
                   path: "edit",
@@ -115,7 +121,7 @@ class AppRouter {
                 GoRoute(
                   path: "dashboard",
                   builder: (context, state) {
-                    return DashboardScreen();
+                    return const DashboardScreen();
                   },
                 )
               ]),

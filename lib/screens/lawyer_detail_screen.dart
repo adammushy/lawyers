@@ -7,6 +7,7 @@ import 'package:twilio_flutter/twilio_flutter.dart';
 // import 'package:pdf_viewer_plugin/pdf_viewer_plugin.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import '../utils/authentication.dart';
+
 // import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 class LawyerDetailScreen extends StatefulWidget {
   final item;
@@ -104,15 +105,23 @@ class _LawyerDetailScreenState extends State<LawyerDetailScreen> {
           SizedBox(
             height: 20,
           ),
-        //  widget.item.get('documentUrl') == ""
-        //  ? Container(
-        //   child:SfPdfViewer.asset('assets/images/pdf.pdf'),
-        //  )
-        //  :Container(
-        //   // height: 200,
-        //   child:SfPdfViewer.network(widget.item.get()) ,
-        //  )
-        //  ,
+          widget.item.get('documentUrl') == ""
+              ? Text("No CV yet")
+              : Container(
+                  height: 100,
+                  child: Text(
+                    widget.item.get('documentUrl'),
+                  ),
+                ),
+          //  widget.item.get('documentUrl') == ""
+          //  ? Container(
+          //   child:SfPdfViewer.asset('assets/images/pdf.pdf'),
+          //  )
+          //  :Container(
+          //   // height: 200,
+          //   child:SfPdfViewer.network(widget.item.get()) ,
+          //  )
+          //  ,
 
           // widget.item.get('documentUrl') == ""
           //     ? SizedBox(
@@ -126,7 +135,6 @@ class _LawyerDetailScreenState extends State<LawyerDetailScreen> {
           //           // path: widget.item.get("documentUrl"),
           //         ),
           //       ),
-
 
           SizedBox(
             height: 20,

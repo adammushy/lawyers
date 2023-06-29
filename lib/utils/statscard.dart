@@ -20,6 +20,7 @@ class _StatsCardTileState extends State<StatsCardTile> {
     updateLawyersCount();
     updateUsersCount();
     updateAdminsCount();
+    updateAllUsersCount();
   }
 
   void updateLawyersCount() async {
@@ -58,6 +59,17 @@ class _StatsCardTileState extends State<StatsCardTile> {
     });
   }
 
+  void updateAllUsersCount() async {
+    final snapshot = await FirebaseFirestore.instance
+        .collection('users')
+        // Assuming 'role' field is used to identify lawyers
+        .get();
+    final count = snapshot.docs.length.toString();
+    setState(() {
+      widget.data?.dashboardList[3].value = count;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -68,8 +80,10 @@ class _StatsCardTileState extends State<StatsCardTile> {
             GoRouter.of(context).go("/home/profile/lawyers");
           } else if (widget.index == 1) {
             GoRouter.of(context).go("/home/profile/users");
-          }else if (widget.index == 2) {
+          } else if (widget.index == 2) {
             GoRouter.of(context).go("/home/profile/admins");
+          }else if (widget.index == 3) {
+            GoRouter.of(context).go("/home/profile/allusers");
           }
         },
         child: Container(
@@ -129,6 +143,11 @@ class DashboardController {
     DashboardModel(
       icon: Icons.groups_outlined,
       title: 'Admins',
+      value: '0',
+    ),
+    DashboardModel(
+      icon: Icons.groups_outlined,
+      title: 'All users',
       value: '0',
     ),
   ];

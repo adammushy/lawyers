@@ -139,22 +139,22 @@ class _LoginScreenState extends State<LoginScreen> {
                                       setState(() {
                                         isSubmitted = !isSubmitted;
                                       });
-                                      int userRole =
-                                          AuthenticationHelper().userRole;
-                                          if(userRole == 0 || userRole== 1){
-                                      GoRouter.of(context).go("/home");
+                                      // int userRole =
+                                      //     AuthenticationHelper().userRole;
+                                      //     if(userRole == 0 || userRole== 1){
+                                      // GoRouter.of(context).go("/home");
 
-                                          }
-                                          else if(userRole == 2){
-                                      GoRouter.of(context).go("/home/profile/dashboard");
-                                          }
-                                          else {
-                                      GoRouter.of(context).go("/home");
+                                      //     }
+                                      //     else if(userRole == 2){
+                                      // GoRouter.of(context).go("/home/profile/dashboard");
+                                      //     }
+                                      //     else {
+                                      // GoRouter.of(context).go("/home");
 
-                                          }
+                                      //     }
 
                                       // print(AuthenticationHelper().test)
-                                      // GoRouter.of(context).go("/home");
+                                      GoRouter.of(context).go("/home");
 
                                       setState(() {
                                         isSubmitted = !isSubmitted;

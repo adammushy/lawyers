@@ -51,11 +51,11 @@ class _AdminLawyersScreenState extends State<AdminLawyersScreen> {
                     itemBuilder: (context, index) {
                       var item = snapshot.data!.docs[index];
                       return GestureDetector(
-                        onTap: (){
+                        onTap: () {
                           Navigator.push(context,
-                                  MaterialPageRoute(builder: (context) {
-                                return LawyerDetailScreen(item: item);
-                              }));
+                              MaterialPageRoute(builder: (context) {
+                            return LawyerDetailScreen(item: item);
+                          }));
                         },
                         child: Padding(
                             padding: const EdgeInsets.only(bottom: 6.0),
@@ -82,7 +82,8 @@ class _AdminLawyersScreenState extends State<AdminLawyersScreen> {
                                                         height: 100,
                                                         fit: BoxFit.cover),
                                                     borderRadius:
-                                                        BorderRadius.circular(10))
+                                                        BorderRadius.circular(
+                                                            10))
                                                 : ClipRRect(
                                                     child: Image.network(
                                                         item.get("photo"),
@@ -159,19 +160,23 @@ class _AdminLawyersScreenState extends State<AdminLawyersScreen> {
                                                       .update({
                                                     "verified": 1,
                                                   }).then((value) {
-                                                    ScaffoldMessenger.of(context)
+                                                    ScaffoldMessenger.of(
+                                                            context)
                                                         .showSnackBar(SnackBar(
                                                       content: Text(
                                                           "Lawyer Activated successfully"),
                                                       backgroundColor:
                                                           Colors.green,
                                                     ));
-                                                  }).onError((error, stackTrace) {
-                                                    ScaffoldMessenger.of(context)
+                                                  }).onError(
+                                                          (error, stackTrace) {
+                                                    ScaffoldMessenger.of(
+                                                            context)
                                                         .showSnackBar(SnackBar(
                                                       content: Text(
                                                           "There was an error. Try Again later"),
-                                                      backgroundColor: Colors.red,
+                                                      backgroundColor:
+                                                          Colors.red,
                                                     ));
                                                   });
                                                   ;
@@ -184,19 +189,23 @@ class _AdminLawyersScreenState extends State<AdminLawyersScreen> {
                                                       .update({
                                                     "verified": 0,
                                                   }).then((value) {
-                                                    ScaffoldMessenger.of(context)
+                                                    ScaffoldMessenger.of(
+                                                            context)
                                                         .showSnackBar(SnackBar(
                                                       content: Text(
                                                           "Lawyer suspended successfully"),
                                                       backgroundColor:
                                                           Colors.green,
                                                     ));
-                                                  }).onError((error, stackTrace) {
-                                                    ScaffoldMessenger.of(context)
+                                                  }).onError(
+                                                          (error, stackTrace) {
+                                                    ScaffoldMessenger.of(
+                                                            context)
                                                         .showSnackBar(SnackBar(
                                                       content: Text(
                                                           "There was an error. Try Again later"),
-                                                      backgroundColor: Colors.red,
+                                                      backgroundColor:
+                                                          Colors.red,
                                                     ));
                                                   });
                                                 }
@@ -208,8 +217,8 @@ class _AdminLawyersScreenState extends State<AdminLawyersScreen> {
                                                       .delete();
                                                 }
                                               },
-                                              icon:
-                                                  Icon(Icons.more_vert_outlined),
+                                              icon: Icon(
+                                                  Icons.more_vert_outlined),
                                             ))
                                       ]),
                                 ),

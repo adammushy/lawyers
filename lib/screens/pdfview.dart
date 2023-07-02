@@ -1,73 +1,103 @@
-import 'dart:async';
-import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
-import 'package:path/path.dart';
+import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
+// import 'package:power_file_view/power_file_view.dart';
 
-class PDFViewerPage extends StatefulWidget {
-  final File file;
 
-  const PDFViewerPage(
-    Key key,
-    this.file,
-  ) : super(key: key);
+class PDFViewerFromUrl extends StatelessWidget {
+  const PDFViewerFromUrl({Key? key, required this.url,required this.username}) : super(key: key);
+
+  final String url;
+  final String username;
 
   @override
-  _PDFViewerPageState createState() => _PDFViewerPageState();
-}
-
-class _PDFViewerPageState extends State<PDFViewerPage> {
-  // Widget @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(),
+      appBar: AppBar(
+        title:  Text('${username} CV'),
+      ),
+      body: const PDF().fromUrl(
+        url,
+        placeholder: (double progress) => Center(child: Text('$progress %')),
+        errorWidget: (dynamic error) => Center(child: Text(error.toString())),
+      ),
     );
   }
-  //
 }
-// late PDFViewController controller;
-// int pages = 0;
-// int indexPage = 0;
 
-// @override
-// Widget build(BuildContext context) {
-//   final name = basename(widget.file.path);
-//   final text = '${indexPage + 1} of $pages';
 
-//   return Scaffold(
-//     appBar: AppBar(
-//       title: Text(name),
-//       actions: pages >= 2
-//           ? [
-//               Center(child: Text(text)),
-//               IconButton(
-//                 icon: Icon(Icons.chevron_left, size: 32),
-//                 onPressed: () {
-//                   final page = indexPage == 0 ? pages : indexPage - 1;
-//                   controller.setPage(page);
-//                 },
-//               ),
-//               IconButton(
-//                 icon: Icon(Icons.chevron_right, size: 32),
-//                 onPressed: () {
-//                   final page = indexPage == pages - 1 ? 0 : indexPage + 1;
-//                   controller.setPage(page);
-//                 },
-//               ),
-//             ]
-//           : null,
-//     ),
-//     body: PDFView(
-//       filePath: widget.file.path,
-//       // autoSpacing: false,
-//       // swipeHorizontal: true,
-//       // pageSnap: false,
-//       // pageFling: false,
-//       onRender: (pages) => setState(() => this.pages = pages!),
-//       onViewCreated: (controller) =>
-//           setState(() => this.controller = controller),
-//       onPageChanged: (indexPage, _) =>
-//           setState(() => this.indexPage = indexPage!),
-//     ),
-//   );
+
+
+
+
+
+
+
+
+
+
+
+
+class PDFViewerCachedFromUrl extends StatelessWidget {
+  const PDFViewerCachedFromUrl({Key? key, required this.url}) : super(key: key);
+
+  final String url;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Cached PDF From Url'),
+      ),
+      body: const PDF().cachedFromUrl(
+        url,
+        placeholder: (double progress) => Center(child: Text('$progress %')),
+        errorWidget: (dynamic error) => Center(child: Text(error.toString())),
+      ),
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// class PowerFileViewPage extends StatefulWidget {
+//   final String downloadUrl;
+//   final String downloadPath;
+
+//   const PowerFileViewPage(
+//       {Key? key, 
+//       required this.downloadUrl, 
+//       required this.downloadPath})
+//       : super(key: key);
+
+//   @override
+//   State<PowerFileViewPage> createState() => _PowerFileViewPageState();
+// }
+
+// class _PowerFileViewPageState extends State<PowerFileViewPage> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: Colors.white,
+//       appBar: AppBar(
+//         title: const Text('File Preview'),
+//       ),
+//       body: PowerFileViewWidget(
+//         downloadUrl: widget.downloadUrl,
+//         filePath: widget.downloadPath,
+//       ),
+//     );
+//   }
 // }

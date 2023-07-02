@@ -55,8 +55,18 @@ dependencies:
   path: ^1.8.2
   path_provider: ^2.0.15
   google_fonts: ^4.0.4
-  # syncfusion_flutter_pdfviewer: ^22.2.8
-  # pdf_viewer_plugin: ^2.0.1
+  # dio: ^5.2.1+1
+  open_file: ^3.3.2
+  permission_handler: ^8.3.0
+
+  flutter_file_downloader: ^1.1.0+1
+  url_launcher: ^6.1.11
+  power_file_view: ^1.0.1
+  flutter_cached_pdfview: ^0.4.2
+  # power_file_viewer_v2: ^1.0.1
+  
+  # syncfusion_flutter_pdfviewer: ^21.2.10
+ 
 
 dev_dependencies:
   flutter_test:

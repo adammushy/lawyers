@@ -1,12 +1,26 @@
+// import 'dart:html';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:intl/intl.dart';
 import 'package:dropdown_search/dropdown_search.dart';
+import 'package:lawyers/screens/pdfview.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:twilio_flutter/twilio_flutter.dart';
 // import 'package:pdf_viewer_plugin/pdf_viewer_plugin.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
+// import 'package:dio/dio.dart';
 import '../utils/authentication.dart';
+import 'package:open_file/open_file.dart';
+import 'package:flutter_file_downloader/flutter_file_downloader.dart';
+import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 // import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 class LawyerDetailScreen extends StatefulWidget {
@@ -30,6 +44,9 @@ class _LawyerDetailScreenState extends State<LawyerDetailScreen> {
   TextEditingController selectedBookingDateController = TextEditingController();
   TextEditingController selectedBookingDateController2 =
       TextEditingController();
+  TextEditingController url = TextEditingController();
+
+  double? _progress;
 
   TwilioFlutter twilioFlutter = TwilioFlutter(
       accountSid:
@@ -85,6 +102,44 @@ class _LawyerDetailScreenState extends State<LawyerDetailScreen> {
     }
   }
 
+  Future<void>? _launched;
+
+  Future<void> _launchInBrowser(url) async {
+    final Uri uri = Uri.parse(url);
+    if (!await launchUrl(
+      uri,
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw Exception('Could not launch $url');
+    }
+  }
+
+  String? downloadedFilePath;
+
+  String? pdfFlePath;
+
+  // Future<void> downloadAndOpenFile(String url) async {
+  //   try {
+  //     final String fileName = widget.item['name'] + ' CV.pdf';
+  //     final Directory? appDocDir = await getExternalStorageDirectory();
+  //     final String downloadPath = '${appDocDir!.path}/lawyers/$fileName';
+
+  //     await FileDownloader.downloadFile(
+  //       url: url,
+  //       saveAsName: fileName,
+  //       directory: '${appDocDir.path}/lawyers',
+  //       showNotification: true,
+  //       openFileFromNotification: false,
+  //     );
+
+  //     setState(() {
+  //       downloadedFilePath = downloadPath;
+  //     });
+  //   } catch (e) {
+  //     print('DOWNLOAD ERROR: $e');
+  //   }
+  // }
+
   @override
   Widget build(BuildContext context) {
     getLaywerAppointments();
@@ -113,6 +168,120 @@ class _LawyerDetailScreenState extends State<LawyerDetailScreen> {
                     widget.item.get('documentUrl'),
                   ),
                 ),
+          widget.item.get('documentUrl') == ""
+              ? const Text("No CV Uploaded")
+              // : MaterialButton(
+              //     onPressed: () {
+              //       downloadAndOpenFile();
+              //     },
+              //     child: Text("View Cv"),
+              //   ),
+
+              : MaterialButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PDFViewerFromUrl(
+                          url: widget.item.get('documentUrl'),
+                          username: widget.item.get('name'),
+                        ),
+                      ),
+                    );
+                    print(widget.item.get('documentUrl'));
+                  },
+                  color: Colors.blue,
+                  child: Text("View Cv"),
+                ),
+
+          //  : MaterialButton(
+          //   onPressed: () {
+          //     Navigator.push(
+          //       context,
+          //       MaterialPageRoute(
+          //         builder: (context) => PDFViewerFromCachedUrl(
+          //           url: widget.item.get('documentUrl'),
+          //         ),
+          //       ),
+          //     );
+          //   },
+          //   child: Text("View Cv"),
+          // ),
+          // : MaterialButton(
+          //     onPressed: () {
+          //       FileDownloader.downloadFile(
+          //           url: widget.item.get('documentUrl'),
+          //           name: "${widget.item.get('name')} CV",
+          //           onDownloadCompleted: (String path) async {
+          //             // final Directory? appDocDir =
+          //             //     await getExternalStorageDirectory();
+          //             // path = '${appDocDir!.path}/lawyers/${name}';
+
+          //             // openFile(url: path);
+          //             // Navigator.push(
+          //             //   context,
+          //             //   MaterialPageRoute(
+          //             //     builder: (context) => PDFViewerPage(path: path),
+          //             //   ),
+          //             // );
+          //             try {
+          //               print(path);
+          //               Navigator.push(
+          //                 context,
+          //                 MaterialPageRoute(
+          //                   builder: (context) =>
+          //                       PowerFileViewPage(downloadUrl: path,downloadPath: path),
+          //                 ),
+          //               );
+          //               // PDFView(
+          //               //   filePath: path!,
+          //               //   enableSwipe: true,
+          //               //   swipeHorizontal: true,
+          //               // );
+          //               print('FILE DOWNLOADED TO PATH: $path');
+          //             } catch (e) {
+          //               print(e);
+          //             }
+          //             // setState(() {
+          //             //   downloadedFilePath = path;
+          //             // });
+          //             // print('FILE DOWNLOADED TO PATH: $path');
+          //             // if (downloadedFilePath != null) {
+          //             //   try {
+          //             //     PDFView(
+          //             //       filePath: downloadedFilePath,
+          //             //       enableSwipe: true,
+          //             //       swipeHorizontal: true,
+          //             //     );
+          //             //   } catch (e) {
+          //             //     print(e.toString());
+          //             //   }
+          //             // }
+          //           },
+          //           onDownloadError: (String error) {
+          //             print('DOWNLOAD ERROR: $error');
+          //           });
+          //     },
+          //     child: Text("View Cv"),
+          //   ),
+
+          // : MaterialButton(
+          //   child: Text(
+          //     "View CV"
+          //   ),
+          //     onPressed: () => setState(() {
+          //           _launched =
+          //               _launchInBrowser(widget.item.get('documentUrl'));
+          //         })),
+
+          // : MaterialButton(
+          //     onPressed: () => openFile(
+          //       url: widget.item.get('photo'),
+          //       // filename: 'mastra.jpg',
+          //     ),
+          //     child: Text("Download Cv"),
+          //   ),
+
           //  widget.item.get('documentUrl') == ""
           //  ? Container(
           //   child:SfPdfViewer.asset('assets/images/pdf.pdf'),
@@ -120,7 +289,7 @@ class _LawyerDetailScreenState extends State<LawyerDetailScreen> {
           //  :Container(
           //   // height: 200,
           //   child:SfPdfViewer.network(widget.item.get()) ,
-          //  )
+          //  ),
           //  ,
 
           // widget.item.get('documentUrl') == ""
@@ -444,6 +613,35 @@ class _LawyerDetailScreenState extends State<LawyerDetailScreen> {
       ),
     );
   }
+
+  // Future openFile({required String url, String? filename}) async {
+  //   final name = filename ?? url.split('%2F').last;
+  //   final file = await downloadFile(url, name);
+  //   if (file == null) return;
+  //   print('path: ${file.path}');
+
+  //   OpenFile.open(file.path);
+  // }
+
+// private storage
+  // Future<File?> downloadFile(String Url, String name) async {
+  //   final appStorage = await getApplicationDocumentsDirectory();
+  //   final file = File('${appStorage.path}/$name');
+  //   try {
+  //     final response = await Dio().get(url as String,
+  //         options: Options(
+  //           responseType: ResponseType.bytes,
+  //           followRedirects: false,
+  //           receiveTimeout: Duration(seconds: 0),
+  //         ));
+  //     final raf = file.openSync(mode: FileMode.write);
+  //     raf.writeFromSync(response.data);
+  //     await raf.close();
+  //     return file;
+  //   } catch (e) {
+  //     return null;
+  //   }
+  // }
 
   Future<void> _showSelectDate(BuildContext context, stateSetter) async {
     var dateSelect = await showDatePicker(

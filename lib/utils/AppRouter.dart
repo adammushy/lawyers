@@ -78,6 +78,7 @@ class AppRouter {
               builder: (context, state) {
                 return LawyersScreen();
               }),
+             
           GoRoute(
               path: "client_appointments",
               builder: (context, state) {

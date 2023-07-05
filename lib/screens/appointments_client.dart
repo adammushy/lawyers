@@ -201,7 +201,7 @@ class _AppointmentsClientScreenState extends State<AppointmentsClientScreen> {
         color = Colors.green;
         break;
 
-      case -1:
+      case 2:
         text = "denied";
         color = Colors.red;
         break;

@@ -151,16 +151,15 @@ class CustomHomeDrawer extends StatelessWidget {
                             ),
                           )
                         : Container(),
-                            snapshot.data!.get("role") == 2
+                    snapshot.data!.get("role") == 2
                         ? ListTile(
                             onTap: () {
-                              GoRouter.of(context).go(
-                                "/home/profile/dashboard"
-                              //   snapshot.data!.get("role")==2
-                              //   ?
-                              //   "/home/profile/dashboard":
-                              // "/home/profile/dashboard"
-                              );
+                              GoRouter.of(context).go("/home/profile/dashboard"
+                                  //   snapshot.data!.get("role")==2
+                                  //   ?
+                                  //   "/home/profile/dashboard":
+                                  // "/home/profile/dashboard"
+                                  );
                             },
                             leading: const Icon(
                               Icons.notes,
@@ -175,16 +174,15 @@ class CustomHomeDrawer extends StatelessWidget {
                             ),
                           )
                         : Container(),
-                        snapshot.data!.get("role") == 2
+                    snapshot.data!.get("role") == 2
                         ? ListTile(
                             onTap: () {
-                              GoRouter.of(context).go(
-                                "/home/profile/lawyers"
-                              //   snapshot.data!.get("role")==2
-                              //   ?
-                              //   "/home/profile/dashboard":
-                              // "/home/profile/dashboard"
-                              );
+                              GoRouter.of(context).go("/home/profile/lawyers"
+                                  //   snapshot.data!.get("role")==2
+                                  //   ?
+                                  //   "/home/profile/dashboard":
+                                  // "/home/profile/dashboard"
+                                  );
                             },
                             leading: const Icon(
                               Icons.notes,
@@ -199,16 +197,15 @@ class CustomHomeDrawer extends StatelessWidget {
                             ),
                           )
                         : Container(),
-                           snapshot.data!.get("role") == 2
+                    snapshot.data!.get("role") == 2
                         ? ListTile(
                             onTap: () {
-                              GoRouter.of(context).go(
-                                "/home/profile/users"
-                              //   snapshot.data!.get("role")==2
-                              //   ?
-                              //   "/home/profile/dashboard":
-                              // "/home/profile/dashboard"
-                              );
+                              GoRouter.of(context).go("/home/profile/users"
+                                  //   snapshot.data!.get("role")==2
+                                  //   ?
+                                  //   "/home/profile/dashboard":
+                                  // "/home/profile/dashboard"
+                                  );
                             },
                             leading: const Icon(
                               Icons.notes,

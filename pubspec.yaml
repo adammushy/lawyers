@@ -61,8 +61,13 @@ dependencies:
 
   flutter_file_downloader: ^1.1.0+1
   url_launcher: ^6.1.11
-  power_file_view: ^1.0.1
+ 
   flutter_cached_pdfview: ^0.4.2
+  pdf: ^3.8.4
+  africas_talking: ^0.0.1
+  telephony: ^0.2.0
+  http: ^0.13.6
+  
   # power_file_viewer_v2: ^1.0.1
   
   # syncfusion_flutter_pdfviewer: ^21.2.10

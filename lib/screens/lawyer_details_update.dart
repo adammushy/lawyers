@@ -149,7 +149,8 @@ class _LawyerDetailsUpdateState extends State<LawyerDetailsUpdate> {
                     child: Text("Update Details"),
                   ),
                   SizedBox(height: 20),
-                  // if (isDocumentUploaded)
+                  
+                 
                   //   Expanded(
                   //     child: PDFView(
                   //       filePath: documentUrlController.text,

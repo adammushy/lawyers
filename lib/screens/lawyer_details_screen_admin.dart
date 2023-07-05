@@ -24,16 +24,16 @@ import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
-class LawyerDetailScreen extends StatefulWidget {
+class LawyerDetailAdminScreen extends StatefulWidget {
   final item;
 
-  LawyerDetailScreen({Key? key, required this.item}) : super(key: key);
+  LawyerDetailAdminScreen({Key? key, required this.item}) : super(key: key);
 
   @override
-  State<LawyerDetailScreen> createState() => _LawyerDetailScreenState();
+  State<LawyerDetailAdminScreen> createState() => _LawyerDetailAdminScreenState();
 }
 
-class _LawyerDetailScreenState extends State<LawyerDetailScreen> {
+class _LawyerDetailAdminScreenState extends State<LawyerDetailAdminScreen> {
   bool isSubmitted = false;
   bool isSuccessfully = false;
   String doc = '';
@@ -171,34 +171,33 @@ class _LawyerDetailScreenState extends State<LawyerDetailScreen> {
           //         child: Text(
           //           widget.item.get('documentUrl'),
           //         ),
-          //       ),
-          
+          //       ), 
 
-            //  widget.item.get('documentUrl') == ""
-            //       ? const Text("No CV Uploaded")
-            //       // : MaterialButton(
-            //       //     onPressed: () {
-            //       //       downloadAndOpenFile();
-            //       //     },
-            //       //     child: Text("View Cv"),
-            //       //   ),
+             widget.item.get('documentUrl') == ""
+                  ? const Text("No CV Uploaded")
+                  // : MaterialButton(
+                  //     onPressed: () {
+                  //       downloadAndOpenFile();
+                  //     },
+                  //     child: Text("View Cv"),
+                  //   ),
 
-            //       : MaterialButton(
-            //           onPressed: () {
-            //             Navigator.push(
-            //               context,
-            //               MaterialPageRoute(
-            //                 builder: (context) => PDFViewerFromUrl(
-            //                   url: widget.item.get('documentUrl'),
-            //                   username: widget.item.get('name'),
-            //                 ),
-            //               ),
-            //             );
-            //             print(widget.item.get('documentUrl'));
-            //           },
-            //           color: Colors.blue,
-            //           child: Text("View Cv"),
-            //         ),
+                  : MaterialButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PDFViewerFromUrl(
+                              url: widget.item.get('documentUrl'),
+                              username: widget.item.get('name'),
+                            ),
+                          ),
+                        );
+                        print(widget.item.get('documentUrl'));
+                      },
+                      color: Colors.blue,
+                      child: Text("View Cv"),
+                    ),
              
           SizedBox(
             height: 20,

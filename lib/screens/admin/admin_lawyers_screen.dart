@@ -5,6 +5,8 @@ import 'package:lawyers/components/snapshot_state.dart';
 import 'package:app_popup_menu/app_popup_menu.dart';
 import 'package:lawyers/screens/lawyer_detail_screen.dart';
 
+import '../lawyer_details_screen_admin.dart';
+
 class AdminLawyersScreen extends StatefulWidget {
   AdminLawyersScreen({Key? key}) : super(key: key);
 
@@ -54,7 +56,7 @@ class _AdminLawyersScreenState extends State<AdminLawyersScreen> {
                         onTap: () {
                           Navigator.push(context,
                               MaterialPageRoute(builder: (context) {
-                            return LawyerDetailScreen(item: item);
+                            return LawyerDetailAdminScreen(item: item);
                           }));
                         },
                         child: Padding(

@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:go_router/go_router.dart';
+// import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
-import 'package:dropdown_search/dropdown_search.dart';
+// import 'package:dropdown_search/dropdown_search.dart';
+import 'package:lawyers/screens/pdfapi.dart';
 import 'package:twilio_flutter/twilio_flutter.dart';
-
+import 'package:africas_talking/africas_talking.dart';
+import 'dart:convert';
+// import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import '../utils/authentication.dart';
 
 class AppointmentDetailScreen extends StatefulWidget {
@@ -21,7 +25,10 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
   bool isSubmitted = false;
   bool isSuccessfully = false;
   String message = "";
+  String _responseText = '';
 
+  static const String key =
+      '1f507e2ab04069cb665a0ae33f4b5ffe6a239d3dc68cf1258d30ae36ebfe5306';
   final db = FirebaseFirestore.instance;
 
   TextEditingController selectedBookingDateController = TextEditingController();
@@ -127,12 +134,15 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
                                       db
                                           .collection("appointments")
                                           .doc(widget.item.id)
-                                          .update({"status": 1}).then((value) {
-                                        twilioFlutter.sendSMS(
-                                            toNumber:
-                                                widget.item.get('user_number'),
-                                            messageBody:
-                                                'LAYWER APPOINMENT APP - Your appointment has been denied.');
+                                          .update({"status": 2}).then(
+                                              (value) async {
+                                        // twilioFlutter.sendSMS(
+                                        //     toNumber:
+                                        //         widget.item.get('user_number'),
+                                        //     messageBody:
+                                        //         'LAYWER APPOINMENT APP - Your appointment has been denied.');
+                                        fetchData('denied', '',
+                                            widget.item.get('user_number'));
                                         Navigator.push(context,
                                             MaterialPageRoute(
                                                 builder: ((context) {
@@ -163,11 +173,19 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
                                           .collection("appointments")
                                           .doc(widget.item.id)
                                           .update({"status": 1}).then((value) {
-                                        twilioFlutter.sendSMS(
-                                            toNumber:
-                                                widget.item.get('user_number'),
-                                            messageBody:
-                                                'LAYWER APPOINMENT APP - Your appointment has been accepted. You can contact the Lawyer through: ${widget.item.get('lawyer_number')}');
+                                        // sendFeedback(
+                                        //     widget.item.get('user_number'),
+                                        //     // '+255719401594',
+                                        //     "LAYWER APPOINMENT APP - Your appointment has been accepted. You can contact the Lawyer through: ${widget.item.get('lawyer_number')}");
+                                        fetchData(
+                                            'accepted',
+                                            widget.item.get('lawyer_number'),
+                                            widget.item.get('user_number'));
+                                        // twilioFlutter.sendSMS(
+                                        //     toNumber:
+                                        //         widget.item.get('user_number'),
+                                        //     messageBody:
+                                        //         'LAYWER APPOINMENT APP - Your appointment has been accepted. You can contact the Lawyer through: ${widget.item.get('lawyer_number')}');
                                         Navigator.push(context,
                                             MaterialPageRoute(
                                                 builder: ((context) {
@@ -185,7 +203,22 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
                                     }
                                   : null,
                               child: Text("Accept")),
-                        )
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                        // ElevatedButton(
+                        //     onPressed: () {
+                        //       // Navigator.push(
+                        //       //     context,
+                        //       //     MaterialPageRoute(
+                        //       //         builder: (context) => MyWidget()));
+                        //       // sendFeedback(
+                        //       //     // widget.item.get('user_number'),
+                        //       //     '+255719401594',
+                        //       //     "LAYWER APPOINMENT APP - Your appointment has been accepted. You can contact the Lawyer through: ${widget.item.get('lawyer_number')}");
+                        //     },
+                        //     child: Text('Test Button'))
                       ],
                     ),
                   ],
@@ -194,6 +227,65 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
         ]),
       ),
     );
+  }
+
+  // Future<void> sendFeedback(phone, message) async {
+  //   try {
+  //     var africasTalking = AfricasTalking('sandbox', key);
+
+  //     // set to false when testing
+  //     // africasTalking.isLive = false;
+
+  //     // *****************************SMS************************************
+  //     // initialize sms; Takes your registered short code or alphanumeric, defaults to AFRICASTKNG
+
+  //     Sms sms = africasTalking.sms('13888');
+  //     print(sms);
+  //     print(africasTalking);
+  //     print(key);
+
+  //     // send sms
+  //     sms.send(message: message, to: [phone]);
+
+  //     print("i have send the message");
+  //     print(phone);
+  //   } catch (e) {
+  //     print(e);
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(
+  //         content: Text(
+  //           e.toString(),
+  //         ),
+  //       ),
+  //     );
+  //   }
+  // }
+
+  Future<void> fetchData(String state, String phoneL, String phoneC) async {
+    print("1");
+    final response = await http.get(
+      Uri.parse(
+          // 'http://192.168.0.104:8000/demo?phoneC=${phoneC}&phoneL=${phoneL}&state=$state'),i f);
+          'http://192.168.43.68:8000/demo?phoneC=${phoneC}&phoneL=${phoneL}&state=$state'),
+    );
+
+    print("2");
+
+    if (response.statusCode == 200) {
+      // Successful GET request
+
+      final jsonResponse = jsonDecode(response.body);
+      setState(() {
+        _responseText = jsonResponse['message'];
+      });
+      print("3");
+    } else {
+      // Error handling
+      setState(() {
+        _responseText = 'Error: ${response.statusCode}';
+      });
+      print("4");
+    }
   }
 
   Future<void> _showSelectDate(BuildContext context) async {
@@ -230,7 +322,7 @@ class _AppointmentDetailScreenState extends State<AppointmentDetailScreen> {
         color = Colors.green;
         break;
 
-      case -1:
+      case 2:
         text = "denied";
         color = Colors.red;
         break;

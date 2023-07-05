@@ -1,55 +1,58 @@
-// import 'dart:async';
-// import 'package:file_picker/file_picker.dart';
-// import 'package:firebase_storage/firebase_storage.dart';
-// import 'package:flutter/services.dart';
-// import 'package:path/path.dart';
-// import 'package:path_provider/path_provider.dart';
+// import 'dart:convert';
+// import 'package:flutter/material.dart';
 // import 'package:http/http.dart' as http;
 
-// import 'dart:io';
+// class MyWidget extends StatefulWidget {
+//   @override
+//   _MyWidgetState createState() => _MyWidgetState();
+// }
 
-// class PDFApi {
-//   static Future<File> loadAsset(String path) async {
-//     final data = await rootBundle.load(path);
-//     final bytes = data.buffer.asUint8List();
+// class _MyWidgetState extends State<MyWidget> {
+//   String _responseText = '';
 
-//     return _storeFile(path, bytes);
-//   }
+//   Future<void> fetchData(String state, String phoneL, String phoneC) async {
+//     print("1");
+//     final response = await http.get(Uri.parse('http://192.168.0.104:8000/demo?phoneC=${phoneC}&phoneL=${phoneL}&state=$state'));
+//     print("2");
 
-//   // static Future<File> loadNetwork(String url) async {
-//   //   final response = await http.get(url);
-//   //   final bytes = response.bodyBytes;
+//     if (response.statusCode == 200) {
+//       // Successful GET request
+      
+//       final jsonResponse = jsonDecode(response.body);
+//       setState(() {
+//         _responseText = jsonResponse['message'];
+//       });
+//     print("3");
 
-//   //   return _storeFile(url, bytes);
-//   // }
+//     } else {
+//       // Error handling
+//       setState(() {
+//         _responseText = 'Error: ${response.statusCode}';
+//       });
+//     print("4");
 
-//   // static Future<File> pickFile() async {
-//   //   final result = await FilePicker.platform.pickFiles(
-//   //     type: FileType.custom,
-//   //     allowedExtensions: ['pdf'],
-//   //   );
-
-//   //   if (result == null) return null;
-//   //   return File(result.paths.first);
-//   // }
-
-//   static Future<File> loadFirebase(String url) async {
-//     try {
-//       final refPDF = FirebaseStorage.instance.ref().child(documentUrl);
-//       final bytes = await refPDF.getData();
-
-//       return _storeFile(url, bytes);
-//     } catch (e) {
-//       return null;
 //     }
 //   }
 
-//   // static Future<File> _storeFile(String url, List<int> bytes) async {
-//   //   final filename = basename(url);
-//   //   final dir = await getApplicationDocumentsDirectory();
-
-//   //   final file = File('${dir.path}/$filename');
-//   //   await file.writeAsBytes(bytes, flush: true);
-//   //   return file;
-//   // }
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text('GET Request Example'),
+//       ),
+//       body: Center(
+//         child: Column(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: <Widget>[
+//             ElevatedButton(
+//               onPressed: fetchData,
+//               child: const Text('Make GET Request'),
+//             ),
+//             const SizedBox(height: 20),
+//             Text('Response: $_responseText'),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
 // }

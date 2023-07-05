@@ -362,8 +362,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
         GoRouter.of(context).go(route);
       },
       child: Container(
-        height: 100,
-        width: 100,
+        height: 120,
+        width: 120,
         margin: EdgeInsets.only(right: 10),
         padding: EdgeInsets.all(16),
         decoration: BoxDecoration(

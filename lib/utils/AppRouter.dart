@@ -78,7 +78,6 @@ class AppRouter {
               builder: (context, state) {
                 return LawyersScreen();
               }),
-             
           GoRoute(
               path: "client_appointments",
               builder: (context, state) {
@@ -107,7 +106,8 @@ class AppRouter {
                   builder: (context, state) {
                     return AdminAdminsScreen();
                   },
-                ),GoRoute(
+                ),
+                GoRoute(
                   path: "allusers",
                   builder: (context, state) {
                     return AllUsersScreen();
@@ -124,8 +124,8 @@ class AppRouter {
                   builder: (context, state) {
                     return const DashboardScreen();
                   },
-                )
-              ]),
+                ),
+              ],),
         ]),
   ]);
 }

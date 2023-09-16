@@ -278,11 +278,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           isSubmitted = false;
                                         });
                                         ScaffoldMessenger.of(context)
-                                            .showSnackBar(SnackBar(
-                                          content: Text(value,
-                                              style: TextStyle(fontSize: 16)),
-                                          duration: Duration(seconds: 5),
-                                        ));
+                                            .showSnackBar(
+                                          SnackBar(
+                                            content: Text(value,
+                                                style: TextStyle(fontSize: 16)),
+                                            duration: Duration(seconds: 5),
+                                          ),
+                                        );
                                       }
                                     });
                                   }

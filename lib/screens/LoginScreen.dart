@@ -28,7 +28,7 @@ class _LoginScreenState extends State<LoginScreen> {
     height = size.height;
     width = size.width;
 
-    print('something_____');
+    // print('something_____');
 
     return Scaffold(
       body: Builder(builder: (context) {
@@ -120,64 +120,65 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 8,
                   ),
                   DecoratedBox(
-                      decoration: BoxDecoration(),
-                      child: ElevatedButton(
+                    decoration: BoxDecoration(),
+                    child: ElevatedButton(
+                      //make color or elevated button transparent
+                      onPressed: !isSubmitted
+                          ? () {
+                              setState(() {
+                                // isSubmitted = true;
+                              });
 
-                          //make color or elevated button transparent
-                          onPressed: !isSubmitted
-                              ? () {
+                              AuthenticationHelper()
+                                  .signIn(
+                                      email: emailController.text,
+                                      password: passwordController.text)
+                                  .then((value) {
+                                if (value == null) {
                                   setState(() {
-                                    isSubmitted = true;
+                                    // isSubmitted = !isSubmitted;
                                   });
+                                  // int userRole =
+                                  //     AuthenticationHelper().userRole;
+                                  //     if(userRole == 0 || userRole== 1){
+                                  // GoRouter.of(context).go("/home");
 
-                                  AuthenticationHelper()
-                                      .signIn(
-                                          email: emailController.text,
-                                          password: passwordController.text)
-                                      .then((value) {
-                                    if (value == null) {
-                                      setState(() {
-                                        isSubmitted = !isSubmitted;
-                                      });
-                                      // int userRole =
-                                      //     AuthenticationHelper().userRole;
-                                      //     if(userRole == 0 || userRole== 1){
-                                      // GoRouter.of(context).go("/home");
+                                  //     }
+                                  //     else if(userRole == 2){
+                                  // GoRouter.of(context).go("/home/profile/dashboard");
+                                  //     }
+                                  //     else {
+                                  // GoRouter.of(context).go("/home");
 
-                                      //     }
-                                      //     else if(userRole == 2){
-                                      // GoRouter.of(context).go("/home/profile/dashboard");
-                                      //     }
-                                      //     else {
-                                      // GoRouter.of(context).go("/home");
+                                  //     }
 
-                                      //     }
+                                  // print(AuthenticationHelper().test)
+                                  GoRouter.of(context).go("/home");
 
-                                      // print(AuthenticationHelper().test)
-                                      GoRouter.of(context).go("/home");
-
-                                      setState(() {
-                                        isSubmitted = !isSubmitted;
-                                      });
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(SnackBar(
-                                        content: Text(value,
-                                            style: TextStyle(fontSize: 16)),
-                                        duration: Duration(seconds: 5),
-                                      ));
-                                    }
+                                  setState(() {
+                                    // isSubmitted = !isSubmitted;
                                   });
+                                  ScaffoldMessenger.of(context)
+                                      .showSnackBar(SnackBar(
+                                    content: Text(value,
+                                        style: TextStyle(fontSize: 16)),
+                                    duration: Duration(seconds: 5),
+                                  ));
                                 }
-                              : null,
-                          child: Container(
-                            alignment: Alignment.center,
-                            width: double.infinity,
-                            padding: const EdgeInsets.only(
-                              top: 18,
-                              bottom: 18,
-                            ),
-                            child: const Text("Login"),
-                          ))),
+                              });
+                            }
+                          : null,
+                      child: Container(
+                        alignment: Alignment.center,
+                        width: double.infinity,
+                        padding: const EdgeInsets.only(
+                          top: 18,
+                          bottom: 18,
+                        ),
+                        child: const Text("Login"),
+                      ),
+                    ),
+                  ),
                   const SizedBox(
                     height: 16,
                   ),
@@ -283,14 +284,17 @@ class _LoginScreenState extends State<LoginScreen> {
                     onTap: () {
                       GoRouter.of(context).go("/login/register");
                     },
-                    child: const Text.rich(TextSpan(
+                    child: const Text.rich(
+                      TextSpan(
                         text: "Not Registered? ",
                         style: TextStyle(color: Colors.white),
                         children: [
                           TextSpan(
                               text: "Register",
                               style: TextStyle(color: Colors.blue))
-                        ])),
+                        ],
+                      ),
+                    ),
                   )
                 ],
               ),
